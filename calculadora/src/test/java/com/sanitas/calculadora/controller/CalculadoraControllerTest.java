@@ -39,6 +39,17 @@ class CalculadoraControllerTest {
     }
 
     @Test
+    void sumError() throws Exception {
+
+        Mockito.when(calculadoraService.sum(1L,1L)).thenReturn(2L);
+
+        mvc.perform(get("/sum?operator1=f&operator2=p")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
     void subtract() throws Exception {
 
         Mockito.when(calculadoraService.subtract(1L,1L)).thenReturn(BigDecimal.ZERO);
@@ -46,6 +57,15 @@ class CalculadoraControllerTest {
         mvc.perform(get("/subtract?operator1=1&operator2=1")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+    @Test
+    void subtractError() throws Exception {
+
+        Mockito.when(calculadoraService.subtract(1L,1L)).thenReturn(BigDecimal.ZERO);
+
+        mvc.perform(get("/subtract?operator1=f&operator2=p")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
 
